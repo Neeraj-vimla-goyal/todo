@@ -1,4 +1,4 @@
-from function import read_todo
+from function import read_todo, write_todo
 while True:
     user_action = input("type add , show , edit , complete, exit: ")
     user_action = user_action.strip()
@@ -7,8 +7,7 @@ while True:
         todos = read_todo()
         todo = user_action[4:] + "\n"
         todos.append(todo)
-        with open('files/todo.txt', 'w') as file:
-            file.writelines(todos)
+        write_todo(todo_args=todos)
 
     elif user_action.lower().startswith('show'):
         todos = read_todo()
@@ -24,8 +23,7 @@ while True:
             print("Your Current todo: " + todos[todo_number - 1])
             new_todo = input("Enter a new todo: ") + "\n"
             todos[todo_number-1] = new_todo
-            with open('files/todo.txt', 'w') as file:
-                file.writelines(todos)
+            write_todo(todo_args=todos)
         except ValueError:
             print("Invalid Edit Command")
             continue
@@ -37,9 +35,9 @@ while True:
 
             todo_complete = int(user_action[9:])
             todos = read_todo()
+            print("todo: " + todos[todo_complete - 1].strip()+ " is completed")
             todos.pop(todo_complete - 1)
-            with open('files/todo.txt', 'w') as file:
-                file.writelines(todos)
+            write_todo(todo_args=todos)
         except IndexError:
             print("No items at this number")
             continue
